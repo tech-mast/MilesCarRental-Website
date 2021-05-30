@@ -1,0 +1,92 @@
+{% extends "admin/master.html.twig" %}
+
+{% block title %}Update car information{% endblock %}
+
+{% block content %}
+
+
+    {% if errorList %}
+        <ul class="errorMessage" style ="margin-top:80px">
+        {% for error in errorList %}
+            <li>{{error}}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+        <div class="container" style ="margin-top:60px">
+            <form class="row g-3" method="POST" enctype="multipart/form-data">
+                <div class="col-12">
+                    <label for="carId" class="form-label fw-bold fs-3 ynavColor">ID: </label>
+                    <label class="form-label fw-bold fs-3 ynavColor" id="carId" name="carId" >{{c.id}}</label>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="model" class="form-label ynavColor">{{translate['model']}}</label>
+                    <input type="text" class="form-control" id="model" name="model" value="{{ c.model }}">
+                </div>
+                <div class="col-md-6">
+                    <label for="size" class="form-label ynavColor">{{translate['size']}}</label>
+                    <input type="text" class="form-control" id="size" name="size" value="{{ c.size }}">
+                </div>
+                <div class="col-md-6">
+                    <label for="mileagePerLitre" class="form-label ynavColor">{{translate['mileageperlitre']}}</label>
+                    {# <input type="email" class="form-control" id="inputEmail4"> #}
+                    <input type="number" name="mileagePerLitre" class="form-control" value="{{ c.mileagePerLitre }}">
+                </div>
+                <div class="col-md-6">
+                    <label for="seats" class="form-label ynavColor">{{translate['seats']}}</label>
+                    <input type="number" name="seats" class="form-control" value="{{ c.seats }}" min="2">
+                </div>
+                <div class="col-md-6">
+                    <label for="doors" class="form-label ynavColor">{{translate['doors']}}</label>
+                    <input type="number" name="doors" class="form-control" value="{{c.doors}}" min ="2" max ="10">
+                </div>
+                <div class="col-md-6">
+                    <label for="dailyCost" class="form-label ynavColor">{{translate['dailycost']}}</label>
+                    <input type="number" name="dailyCost" class="form-control" value="{{c.dailyCost}}" min="0" step=".01">
+                </div>
+                <div class="col-12">
+                    <label for="inputAddress" class="form-label ynavColor">{{translate['localaddress']}}</label>
+                    {# <input type="text" class="form-control" id="inputAddress" placeholder="" name ="inputAddress" value="{{ c.address }}"> #}
+                    <select id="inputAddress" name = "inputAddress" class="form-select" aria-label="Default select example">
+                        <option value="" disabled selected>select drop-off location</option>
+                        {% for l in locations %}
+                            {% if c.locationId == l.id %}   
+                            <option value="{{l.id}}" name = "{{l.id}}" selected="selected">{{l.id}} - {{l.address}}</option>
+                            {% else %}
+                            <option value="{{l.id}}" name = "{{l.id}}">{{l.id}} - {{l.address}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+
+                </div>
+                <div class="col-12">
+                    <label for="picture" class="form-label ynavColor">{{translate['picture']}}</label>
+                    <div class="text-center d-flex flex-row justify-content-center align-items-center">
+                        {% if (c.imageData) %}             
+                        <img width="200px" src="/displaycars/image/{{ c.id }}" class="rounded " id="oldImage"> 
+                        {# <img width="200px" src="/uploads/{{ c.imagePath }}" class="rounded " id="oldImage">  #}
+                        <p style="display:block; width:200px; height:60px;cursor: pointer" onclick="document.getElementById('getFile').click();document.getElementById('getFile').style.display = 'inline-block';document.getElementById('oldImage').style.display = 'none';document.getElementById('changeimage').style.display = 'none';" id="changeimage" class="h6 ynavColor">Click Here To Change the Picture</p>
+                        <input type='file' id="getFile"  name ="image" style="display:none"> 
+                        {% else %}
+                        <input type="file" name="image"/>
+                        {% endif %}
+                    </div> 
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-success float-end">{% if op == 'edit' %}{{translate['updatecare']}}{% else %}{{translate['addcars']}}{% endif %}</button>
+                </div>
+            </form>
+            <div class = "d-flex justify-content-end">
+              <a class="nav-link ynavColor border border-success mt-3 rounded text-success" style= "width:250px; height: 30px; border-radius: 10px; padding-top: 2px;margin-left: 50px" href="/admin/cars">{{translate['cancel']}}</a>
+            </div>
+        </div>
+{# 
+        <script>
+            document.getElementById("btChangePhoto").onclick = function() {
+                <input type="file" name="image" placeholder="Click here to choose a picture"/>
+            };
+
+        </script> #}
+
+{% endblock %}

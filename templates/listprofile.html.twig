@@ -1,0 +1,16 @@
+{% extends "master.html.twig" %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+    {% if v %}
+    <div class="container">
+        <div class="row mt-2"><div class="col-2">{{ messages['first'] }}</div><div class="col-8"><b>{{v.firstName}}</b></div></div>
+        <div class="row mt-2"><div class="col-2">{{ messages['last'] }}</div><div class="col-8"><b>{{v.lastName}}</b></div></div>
+        <div class="row mt-2"><div class="col-2">{{ messages['phone'] }}</div><div class="col-8"><b>{{v.phoneNumber}}</b></div></div>
+        <div class="row mt-2"><div class="col-2">{{ messages['lisence'] }}</div><div class="col-8"><b>{{v.driversLiscenceNum}}</b></div></div>
+        <div class="row mt-2"><div class="col-2">{{ messages['company'] }}</div><div class="col-8"><b>{{v.companyName}}</b></div></div>
+        <div class="row mt-2"><div class="col-2">{{ messages['email'] }}</div><div class="col-8"><b>{{v.email}}</b></div></div>
+    </div>
+    {% endif %}
+{% endblock %}

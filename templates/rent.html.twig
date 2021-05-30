@@ -1,0 +1,38 @@
+{% extends "master.html.twig" %}
+{% block title %}{{ messages['rentcartitle']}}{% endblock title %}
+{% block content %}
+<script type = "text/javascript">
+var x = false;
+    function page_redirect(){  
+    window.location = "http://milescarrental.ipd24.ca/rent";    
+}
+</script>
+<div class="row bg-success mb-1 p-1 bordered rounded text-success" style="margin-top:100px">
+    <div class="col-md-12 col-sm-12 text-center bg-light p-3 align-self-center">
+        <h1 class=" mt-5 align-self-center">{{ messages['chooseCar']}}</h1>
+    </div>
+    <div class="col-md-12 col-sm-12 text-center bg-light p-3 align-self-center">
+    </div>
+    <div class="col-md-12 col-sm-12 text-center bg-light p-3  align-self-center">
+            <h4 >{{ messages['address']}}: {{loc.address}}</h4>
+            <h4 >{{ messages['city']}}: {{loc.city}}</h4>
+            <h4 >{{ messages['phone']}}: {{loc.phone}}</h4>
+    </div>
+</div>
+<div class="container-fluid p-1 m-0 text-warning">
+    <div class="row  justify-content-center">
+        {% for car in cars %}
+        <div class="col-md-5 col-sm-12 text-center bg-light p-3 border border-light shadow-lg m-5">
+            <form method="POST" class="text-success">
+                <img class="img-fluid img-limit" src="resources/cars2/{{car.imagePath}}" alt="car">
+                <h2>{{car.model}}</h2>
+                <h3>{{car.size}} : {{car.seats}} {{ messages['seats']}}, {{car.doors}} {{ messages['doors']}}.</h3>
+                <h3>${{car.dailyCost|number_format(2, '.', ',')}}/{{messages['day']}}</h3>
+                <input type="text" value='{{car.id}}' name='id' class="hidden">
+                <input type="submit" class="btn btn-success bt-width mt-2" value="{{ messages['select']}}">
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

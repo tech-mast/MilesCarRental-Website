@@ -1,0 +1,16 @@
+{% extends "master.html.twig" %}
+
+{% block title %}Rent a Car{% endblock title %}
+{% block content %}
+
+    <h1>CheckOut Page</h1>
+    <h1>The car you chose was {{userSession.selectedCar.model}}</h1>
+    <h1>ID # {{userSession.selectedCar.id}}</h1>
+    <h1>The items you added on were:</h1>
+    {% for item in userSession.extrasAdded %}
+        {% for sub in item %}
+            <h1>-{{sub.name}}</h1>
+        {% endfor %}
+    {% endfor %}
+    <h1>Total Cost: {{userSession.cost}}</h1>
+{% endblock content %}

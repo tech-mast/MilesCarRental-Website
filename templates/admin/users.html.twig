@@ -1,0 +1,67 @@
+{% extends "admin/master.html.twig" %}
+{% block title %}User List{% endblock title %}
+{% block head %}
+    <script src="../../js/users.js"></script>
+{% endblock head %}
+
+{% block content %}
+<div class = "container-fluid" style ="margin-top:80px">
+    <table class="table table-hover table-light ynavColorNoHover border-bottom border-success">
+        <thead class="table-success">
+            <tr>
+            <th scope="col">User Id</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Date of Birth</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Driver Lisence</th>
+            <th scope="col">Company</th>
+            <th scope="col">email</th>
+            <th scope="col">Mailing List</th>
+            <th scope="col">Admin</th>
+            <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in userList %}
+                {% set uid = u.id %}
+                <tr>
+                <th scope="row">{{u.id}}</th>
+                <td>{{u.firstName}}</td>
+                <td>{{u.lastName}}</td>
+                <td>{{u.DateOfBirth}}</td>
+                <td>{{u.phoneNumber}}</td>
+                <td id="driver_{{uid}}" >{{u.driversLiscenceNum}}</td>
+                <td>{{u.companyName}}</td>
+                <td>{{u.email}}</td>
+                <td>{{u.mailingList==0?"No":"Yes"}}</td>
+                <td id="admin_{{uid}}">{{u.isAdmin==1?"Yes":"No"}}</td>
+                <td>
+                {% if adminid == uid %}
+                <button id="grant_{{uid}}" onclick="grant(this)" disabled class="btn btn-outline-success"><i class="fas fa-crown"></i></button>
+                {% else %}
+                <button id="grant_{{uid}}" onclick="grant(this)" class="btn btn-outline-success"><i class="fas fa-crown"></i></button>
+                {% endif %}
+                <button id="reset_{{uid}}" onclick="reset(this)" class="btn btn-outline-success"><i class="fas fa-fingerprint"></i></button>
+                </td>
+                </tr>
+            {% endfor %}
+            <tr id="newuser">
+                <th id="newuser_id"></th>
+                <td><input id="newuser_fname" type="text" name ="firstname" size="10" class="form-input border-success border-2"></td>
+                <td><input id="newuser_lname" type="text" name ="lastname" size="10" class="form-input border-success border-2"></td>
+                <td><input id="newuser_birth" type="text" name ="birth" size="10" class="form-input border-success border-2"></td>
+                <td><input id="newuser_phone" type="text" name ="phone" size="10" class="form-input border-success border-2"></td>
+                <td><input id="newuser_driver" type="text" name ="license" size="10" class="form-input border-success border-2"></td>
+                <td><input id="newuser_company" type="text" name ="company" size="10" class="form-input border-success border-2"></td>
+                <td><input id="newuser_email" type="text" name ="email" size="15" class="form-input border-success border-2"></td>
+                <td><input id="newuser_mailing" type="checkbox" name="mailing" value="yes" class="form-check-input border-success border-2"></td>
+                <td><input id="newuser_admin" type="checkbox" name="isadmin" value="yes" class="form-check-input border-success border-2"></td>
+                <td>
+                    <button type="button" class="btn-s btn-success" onclick="add()">Create</button>
+                </td>
+                </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

@@ -1,0 +1,49 @@
+{% extends "admin/master.html.twig" %}
+{% block title %}Car List{% endblock %}
+{% block li %}
+
+    <li class="nav-item">
+        <a class="nav-link ynavColor border border-success rounded m-3 bg-success text-light" style= "width:120px; height: 30px; border-radius: 10px; padding-top: 2px;margin-left: 5px" href="/admin/cars/add">{{translate['addcars']}}</a>
+    </li>
+
+{% endblock %}
+
+{% block content %}
+<div class = "container-fluid" style ="margin-top:80px">
+    <table class="table table-hover table-light ynavColorNoHover border-bottom border-success">
+        <thead class="table-success">
+            <tr>
+            <th scope="col">Car Id</th>
+            <th scope="col">Model</th>
+            <th scope="col">Size</th>
+            <th scope="col">Mileage/L</th>
+            <th scope="col">Seat</th>
+            <th scope="col">Door</th>
+            <th scope="col">Daily Cost</th>
+            <th scope="col">Location</th>
+            <th scope="col">PhoneNumber</th>
+            <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in carsList %}
+                <tr>
+                <th scope="row">{{c.id}}</th>
+                <td>{{c.model}}</td>
+                <td>{{c.size}}</td>
+                <td>{{c.mileagePerLitre}}</td>
+                <td>{{c.seats}}</td>
+                <td>{{c.doors}}</td>
+                <td>{{c.dailyCost}}</td>
+                <td>{{c.address}}</td>
+                <td>{{c.phone}}</td>
+                <td>
+                <button onclick="window.location='/admin/cars/edit/{{c.id}}';" class="btn btn-outline-success"><i class="fas fa-edit"></i></button>
+                <button onclick="window.location='/admin/cars/delete/{{c.id}}';" class="btn btn-outline-success"><i class="fas fa-trash-alt"></i></button>
+                </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

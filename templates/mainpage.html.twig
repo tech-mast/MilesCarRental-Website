@@ -1,0 +1,118 @@
+{% extends "master.html.twig" %}
+
+{% block title %}Login{% endblock %}
+{% block head %}
+    <style>
+        #map {
+            height: 700px;
+            width: 100%;
+        }
+        .searchBar{
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+<div class="modal" id= "myModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger font-weight-bold">Error List:</h5>
+        {# <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> #}
+      </div>
+      <div class="modal-body">
+
+        <ul class="text-success">
+            {% for error in errorList %}
+                <li>{{error}}</li>
+            {% endfor %}
+        </ul>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+        {# <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> #}
+      </div>
+    </div>
+  </div>
+</div>
+
+    {% if errorList %}
+         {# <script>errorLoad()</script>  #}
+        <script> $('#myModal').modal('show'); console.log("herehere");</script>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" style= "margin-top: 55px; padding-top: 15px; padding-bottom: 15px" class = "form-row ynavColorBackground">
+        <select class="ynavColor" id="pickUpLocation" name = "locations" style= "margin-left: 30px; margin-top:20px; heigth:35px">
+            <option value="" disabled selected>{{ translate['pickuplocation']}}</option>
+            {% for l in locationList %} 
+                {% if l.address == location %}           
+                <option value="{{l.address}}" name = "{{l.address}}" selected="selected">{{l.address}}</option>
+                {% else %}
+                <option value="{{l.address}}" name = "{{l.address}}">{{l.address}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>     
+        <select class="ynavColor" id="dropoffLocation" name = "dropoffLocations" style= "margin-top:20px; heigth:35px">
+            <option value="" disabled selected>{{ translate['dropofflocation']}}</option>
+            {% for l in locationList %}
+                {% if l.address == dropoffLocation %}   
+                <option value="{{l.address}}" name = "{{l.address}}" selected="selected">{{l.address}}</option>
+                {% else %}
+                <option value="{{l.address}}" name = "{{l.address}}">{{l.address}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <label for="PickupDate" class="" style= "margin-left: 20px; color: white; font-weight: bold;">{{ translate['pickupdate']}}</label>
+        <input type="datetime-local" id="PickupDate" name="PickupDate" class = "ynavColor" style= "width:210px "  value ="{{pickupDate}}">
+        <label for="DropoffDate" class="" style= "margin-left: 20px; color: white; font-weight: bold;">{{ translate['dropoffdate']}}</label>
+        <input type="datetime-local" id="DropoffDate" name="DropoffDate" class = "ynavColor" style= "width:210px;" value ="{{dropoffDate}}">
+        <button type="submit" style= "width:95px; height: 30px; border-radius: 10px; padding-top: 2px;margin-left: 5px" class = "btn btn-light btn-outline-success my-2 ml-2">{{ translate['search']}} </button>
+    </form>
+    <div id="map"></div>
+
+     <script>
+
+            // Initialize and add the map
+        function initMap(){
+            var infoWind = new google.maps.InfoWindow();
+            var map = new google.maps.Map(
+                document.getElementById("map"),
+                {
+                    zoom: 12,
+                    center: { lat: {{locationList[0].lat}}, lng: {{locationList[0].lng}}}
+                }
+            );
+
+            var marker;
+
+            {% for l in locationList %}
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng({{ l.lat }}, {{ l.lng }}),
+                map: map
+            });
+     
+            marker.addListener('mouseover', function(){
+                    infoWind.setContent(" "+ "<h5>"+ ""+ {{ l.count }} +""+ "</h5>"+" cars available now."+"<br>"+"At "+ '{{l.address}}' +"");
+                    infoWind.open(map, this); // here should be 'this' instead of 'marker'
+            })
+
+            marker.addListener('click', function(){
+                window.location.href='/rent/{{ maker.locationId}}';
+            })
+            {% endfor %}
+        }
+    </script>
+{% endblock %}
+
+{% block html %}
+  <script async defer
+      src="https://maps.googleapis.com/maps/api/"
+    ></script>
+
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "master.html.twig" %}
+
+{% block title %}{{ messages['ordersummarytitle']}}{% endblock title %}
+{% block content %}
+<div class="container-fluid p-1 mt-5">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 text-center bg-success p-3 text-warning">
+            <h1>{{ messages['ordersummarytitle']}}</h1>
+            <img class="img-fluid img-limit" src="resources/cars2/{{userSession.selectedCar.imagePath}}" alt="cosen car">
+            <h2>{{ messages['caryouchose']}} {{userSession.selectedCar.model}}</h2>
+            <h2>{{ messages['rentperiod']}}: {{userSession.rentalPeriod}} {{messages['dayplural']}}</h2>
+            <h2>{{ messages['rentcoststring']}}: {{userSession.selectedCar.dailyCost|number_format(2, '.', ',')}} x {{userSession.rentalPeriod}} days = {{userSession.subCost}}</h2>
+        </div>
+        <div class="col-md-6 col-sm-6 text-center bg-success p-3 text-warning">
+            <h2>{{ messages['pickuploc']}} :</h2>
+            <h3>{{userSession.carLocation.address}}</h3>
+            <h3>{{userSession.carLocation.city}}</h3>
+            <h3>{{userSession.carLocation.phone}}</h3>
+            <h3>Date: {{userSession.startDateFormatted}}</h3>
+        </div>
+        <div class="col-md-6 col-sm-6 text-center bg-success p-3 text-warning">
+            <h2>{{ messages['droploc']}} :</h2>
+            <h3>{{userSession.carEndLocation.address}}</h3>
+            <h3>{{userSession.carEndLocation.city}}</h3>
+            <h3>{{userSession.carEndLocation.phone}}</h3>
+            <h3>Date: {{userSession.endDateFormatted}}</h3>
+        </div>
+        <div class="col-md-12 col-sm-12 text-center bg-success p-3 text-warning">
+            {% if hasItem > 0 %}
+            <h2>{{ messages['extrasaddedstring']}}:</h2>
+            {% for item in chosenExtras %}
+            {% for sub in item %}
+                <h3>-{{sub.name}} + ${{sub.cost}}</h3>
+            {% endfor %}
+            {% endfor %}
+            {% endif %}
+            <h2>{{ messages['totalrecieptstring']}}: ${{totalCost}}</h2>
+            {% if loginSession %}
+            <h2>{{ messages['payas']}} {{loginSession.firstName}} {{loginSession.lastName}}</h2>
+            {% else %}
+            <h2>{{ messages['payas']}} {{ messages['guest']}}</h2>
+            {% endif %}
+
+            <div id="paybt"></div>
+        </div>
+    </div>
+</div>
+  <script src="https://www.paypal.com/sdk/js?client-id=AXhVH5rwOb9b4UKP98Y3ekIisCcZtCDSfpb_Z5Dxh4v6aUsmzunShTExTsqPNSPolqwlf92bXwMbt-dJ&disable-funding=credit,card"></script>
+  <script>
+  var checkoutAmount = "{{totalCost}}";
+
+paypal.Buttons({
+        createOrder: function(data, actions) {
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                value: checkoutAmount
+              }
+            }]
+          });
+        },
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(details) {
+            window.location = "http://milescarrental.ipd24.ca/payment_success";
+          });
+        }
+      }).render('#paybt');
+
+    </script>   
+    
+{% endblock content %}

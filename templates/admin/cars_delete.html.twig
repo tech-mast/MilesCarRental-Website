@@ -1,0 +1,65 @@
+{% extends "admin/master.html.twig" %}
+
+{% block title %}Delete car{% endblock %}
+
+{% block content %}
+    <div class="container ynavColorNoHover" style ="margin-top:50px">
+        <form class="row g-3" method="POST" enctype="multipart/form-data">
+
+            <div class="col-12">
+                <p class="h5 ynavColor">Are you sure you want to delete the following record?</p>
+            </div>
+
+            <div class="col-12">
+                <label for="carId" class="form-label fw-bold fs-3">ID: </label>
+                <label class="form-label fw-bold fs-3" id="carId" name="carId" >{{ c.id }}</label>
+            </div>
+
+            <div class="col-md-6">
+                <label for="model" class="form-label">{{translate['model']}}</label>
+                <label type="text" class="form-control" id="model" name="model"> {{ c.model }} </label>
+            </div>
+            <div class="col-md-6">
+                <label for="size" class="form-label">{{translate['size']}}</label>
+                <label type="text" class="form-control" id="size" name="size"> {{ c.size }} </label>
+            </div>
+            <div class="col-md-6">
+                <label for="mileagePerLitre" class="form-label">{{translate['mileageperlitre']}}</label>
+                {# <input type="email" class="form-control" id="inputEmail4"> #}
+                <label type="number" name="mileagePerLitre" class="form-control"> {{ c.mileagePerLitre }} </label>
+            </div>
+            <div class="col-md-6">
+                <label for="seats" class="form-label">{{translate['seats']}}</label>
+                <label type="number" name="seats" class="form-control"> {{ c.seats }} </label>
+            </div>
+            <div class="col-md-6">
+                <label for="doors" class="form-label">{{translate['doors']}}</label>
+                <label type="number" name="doors" class="form-control"> {{c.doors}} </label>
+            </div>
+            <div class="col-md-6">
+                <label for="dailyCost" class="form-label">{{translate['dailycost']}}</label>
+                <label type="number" name="dailyCost" class="form-control"> {{c.dailyCost}} </label>
+            </div>
+            <div class="col-12">
+                <label for="inputAddress" class="form-label">{{translate['localaddress']}}</label>
+                <label name="inputAddress" class="form-control"> {{l.id}} - {{l.address}}</label>
+            </div>
+            <div class="col-12">
+                <label for="picture" class="form-label">{{translate['picture']}}</label>
+                <div class="text-center">
+                    {% if (c.imageData) %}             
+                    <img width="200px" src="/uploads/{{ c.imagePath }}" class="rounded" > 
+                    {% endif %}
+                </div> 
+            </div>
+            <div class="col-12">
+                <p class="h5 d-flex flex-column justify-content-center">Please confirm this action. It is irreversible</p>
+                <button type="submit" class="btn btn-success float-end">{{translate['delete']}}</button>
+            </div>
+        </form>
+        <div class = "d-flex justify-content-end">
+            <a class="nav-link ynavColor border border-success mt-3 rounded text-success" style= "width:250px; height: 30px; border-radius: 10px; padding-top: 2px;margin-left: 50px" href="/admin/cars">{{translate['cancel']}}</a>
+        </div>
+    </div>
+
+{% endblock %}

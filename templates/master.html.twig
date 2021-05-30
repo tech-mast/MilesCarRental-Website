@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+		<link rel="stylesheet" href="/css/master.css">
+		<title>
+			{% block title %}{% endblock %}
+			- My Webpage</title>
+		{% block head %}{% endblock %}
+	</head>
+	<body>
+		<div class="container-fluid"> <!-- "container" is necessary for bootstrap -->
+		<div class="header row">
+			<nav class="navbar navbar-expand-lg  navbar-light bg-light  fixed-top">
+				<a class="navbar-brand ml-3 py-0" href="/">
+					<div class="logo  mx-0 my-0" style="box-shadow: 2px 2px 2px 2px #B3BF54;">
+						<span class="ynavColor p-2"> Miles Car Rental  </span>
+					</div>
+				</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse justify-content-start" id="navbarSupportedContent" style= "width: 50%">
+					<ul class="navbar-nav mr-5">
+						<li class="nav-item active">
+							<a class="nav-link ynavColor" >
+								<span class="sr-only"> &nbsp;&nbsp;</span>
+							</a>
+						</li>
+						{# <li class="nav-item">
+							<a class="nav-link ynavColor" href="#">CLINETS</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link ynavColor" href="#">OUR REACH</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link ynavColor" href="#">PEOPLE</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link ynavColor" href="#">PRACTICES</a>
+						</li> #}
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle ynavColor" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								{{translate['language']}}
+							</a>
+							<div class="dropdown-menu ydropDownMeneColor" aria-labelledby="navbarDropdown">
+								<a class="dropdown-item  ynavColor" href="/swithlanguage/en">{{translate['english']}}</a>
+								<a class="dropdown-item ynavColor" href="/swithlanguage/fr" id = "languageF">{{translate['french']}}</a>
+								{# <p class="dropdown-item ynavColor" id = "languageF" onclick="myFunction()">French</p> #}
+								{# <div class="dropdown-divider"></div>
+								<a class="dropdown-item ynavColor" href="#">Something else here</a> #}
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="d-flex ynavColorNoHover justify-content-end flex-row">
+					{% if loginSession %}
+
+					<ul class="navbar-nav mx-5">
+						<li class="nav-item dropdown">
+							<span>{{translate['loginas']}} <b>{{ loginSession.firstName }}</b> </span>
+							<a class="nav-link dropdown-toggle ynavColor" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								{{translate['youcan']}}	
+							</a>
+							<div class="dropdown-menu ydropDownMeneColor" aria-labelledby="navbarDropdown">
+								<a class="dropdown-item  ynavColor" href="/logout">{{translate['logout']}}</a>
+								<a class="dropdown-item  ynavColor" href="/editprofile">{{translate['editprofile']}}</a>
+							{% if loginSession.isAdmin == 1  %}						
+								<a class="dropdown-item  ynavColor" href="/admin" class="ynavColor">{{translate['admininterface']}}</a>					
+							{% endif %}
+								{# <p class="dropdown-item ynavColor" id = "languageF" onclick="myFunction()">French</p> #}
+								{# <div class="dropdown-divider"></div>
+								<a class="dropdown-item ynavColor" href="#">Something else here</a> #}
+							</div>
+						</li>
+
+					</ul>
+					{% else %}
+						<div class="d-flex flex-row mr-4">
+							<a href="/login" class="ynavColor mx-2">{{translate['login']}}</a>
+							<span>
+								{{translate['or']}}</span>
+							<a href="/register" class="ynavColor  mx-2">{{translate['register']}}</a>
+						</div>
+					{% endif %}
+				</div>
+			</nav>
+		</div>
+		<main>
+			<div id="centeredContent row">
+				{% if flashMessage %}
+					<div id="flashMessage">{{flashMessage}}</div>
+				{% endif %}
+				{% block content %}{% endblock %}
+			</div>
+		</main>
+		<footer class="footer">
+			<div class="row yfooter">
+				{% block footer %}
+					<div class="container-fluid text-center bg-light text-light py-2 mt-3 border-top border-light">
+						<div class="row justify-content-center mt-3"  style = "color: #28a745">
+							<div class="col-lg-4 text-left">
+								<p class="mb-1 text-left yiconStyle mr-3"><i class="fas fa-map-marker-alt mr-2"></i> {{translate['mainoffice']}}{{locationList[0].address}}</p>
+								{# <p class="mb-0 text-left yiconStyle"><i class="fas fa-map-marker-alt mr-2"></i>Toronto: 123456 Rue Blue, Quebec, P5T 9G8</p> #}
+								<p class="mb-0 text-left yiconStyle mr-3"><i class="far fa-envelope mr-2"></i> Email: customerservice@milescarrental.com</p>
+							</div>
+							<div class="col-lg-3 text-center">
+								<p class="mb-1 text-left yiconStyle"><i class="fas fa-phone-volume mr-2"></i> Tel: 888-800-8080</p>
+								<p class="mb-0 text-left yiconStyle mr-3"> &copy; Copyright 2011 by MilesCarRental</p>
+							</div>
+							<div class="col-lg-3 text-center align-middle">
+								<p class="mb-0 mt-2 yiconStyle">
+									<i class="fab fa-twitter mr-2"></i>
+									<i class="fab fa-facebook-square mr-2"></i>
+									<i class="fab fa-linkedin mr-2"></i>
+									<i class="fab fa-instagram mr-2"></i>
+									<i class="fas fa-globe"></i>
+								</p>
+							</div>
+						</div>
+					</div>
+				{% endblock %}
+			</div>
+		</footer>
+		</div>
+	</body>
+	{% block html %}{% endblock %}
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</html>
